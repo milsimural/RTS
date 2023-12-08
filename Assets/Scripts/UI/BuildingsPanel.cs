@@ -18,10 +18,7 @@ public class BuildingsPanel : MonoBehaviour
         foreach (var building in _buildings) 
         {
             var buttonGo = Instantiate(BuildingButtonTemplate, _buttonParent);
-            Debug.Log(buttonGo.GetComponent<Text>());
-            buttonGo.GetComponent<Text>().text = "Some";
-            //buttonGo.GetComponent<Image>().sprite = building.Icon;
-            //buttonGo.GetComponent<BuildingPresaenterOnButton>().Present(building);
+            buttonGo.GetComponent<BuildingPresaenterOnButton>().Present(building);
         }
     }
 
