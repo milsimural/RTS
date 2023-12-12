@@ -9,4 +9,8 @@ public class BuildingProfile : ScriptableObject
     public string Name;
     public Sprite Icon;
     public int PriceInGold;
+    public int PriceInTimber;
+    public int PriceInStone;
+    public int PriceInIron;
+    public float TimeToBuild;
 }

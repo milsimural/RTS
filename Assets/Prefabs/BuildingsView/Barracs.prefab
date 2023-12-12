@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4185650370384951702}
   - component: {fileID: 5772752022492524455}
   - component: {fileID: 350203328648019798}
+  - component: {fileID: 7559158334809963856}
   m_Layer: 0
   m_Name: Barracs
   m_TagString: Untagged
@@ -130,3 +131,33 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &7559158334809963856
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8552300165671864027}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 616912395bce7ab40ba1498c60573ba9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnCollised:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2100000, guid: 23e3f5764e405154a9474f287beb0e2c, type: 2}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnFree:
+    m_PersistentCalls:
+      m_Calls: []

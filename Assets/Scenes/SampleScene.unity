@@ -982,6 +982,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7559158334809963856, guid: 65eaaf9e60d056344982f6e590785b00, type: 3}
+      propertyPath: OnFree.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7559158334809963856, guid: 65eaaf9e60d056344982f6e590785b00, type: 3}
+      propertyPath: OnCollised.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7559158334809963856, guid: 65eaaf9e60d056344982f6e590785b00, type: 3}
+      propertyPath: OnFree.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 8552300165671864027, guid: 65eaaf9e60d056344982f6e590785b00, type: 3}
+    - target: {fileID: 7559158334809963856, guid: 65eaaf9e60d056344982f6e590785b00, type: 3}
+      propertyPath: OnFree.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 8552300165671864027, guid: 65eaaf9e60d056344982f6e590785b00, type: 3}
       propertyPath: m_Name
       value: Barracs
