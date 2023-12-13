@@ -7,6 +7,7 @@ public class BuildingPresaenterOnButton : MonoBehaviour
 {
     public Text BuildingName;
     public Image Icon;
+    public Button Button;
 
     public void Present(BuildingProfile profile)
     {

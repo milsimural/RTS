@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class CameraScript : MonoBehaviour
 {
-    public float CameraMoveSpeed = 5f;
-    public float CameraZoomSpeed = 6f;
-    public float CameraMinHeight = 1f;
-    public float CameraMaxHeight = 9f;
+    private float CameraMoveSpeed = 5f;
+    private float CameraZoomSpeed = 500f;
+    private float CameraMinHeight = 1f;
+    private float CameraMaxHeight = 9f;
     Transform CameraTransform;
     public static bool CameraZoom = true, CameraMove = true;
     
@@ -25,7 +25,7 @@ public class CameraScript : MonoBehaviour
         {
             float y = Input.GetAxis("Vertical");
             float x = Input.GetAxis("Horizontal");
-            float h = Input.GetAxis("Mouse ScrollWheel");
+            float h = -Input.GetAxis("Mouse ScrollWheel");
             Camera.main.orthographicSize += h * CameraZoomSpeed * Time.deltaTime;
             Camera.main.orthographicSize = Mathf.Clamp(Camera.main.orthographicSize, CameraMinHeight, CameraMaxHeight);
             CameraTransform.position = new Vector3(CameraTransform.position.x + x * CameraMoveSpeed * Time.deltaTime,

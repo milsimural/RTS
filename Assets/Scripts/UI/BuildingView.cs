@@ -19,6 +19,13 @@ public class BuildingView : MonoBehaviour
     public UnityEvent OnCollised = new UnityEvent();
     public UnityEvent OnFree = new UnityEvent();
 
+    public Transform CurrentTransform;
+
+    public void Awake()
+    {
+        CurrentTransform = GetComponent<Transform>();
+    }
+
     public void OnCollisionStay(Collision collision)
     {
         if (!_isCollised)

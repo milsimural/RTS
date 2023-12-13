@@ -10,7 +10,7 @@ public class BuildingsPanel : MonoBehaviour
     private Transform _buttonParent;
     private List<BuildingProfile> _buildings;
     
-    // Start is called before the first frame update
+
     void Start()
     {
         _buildings = new List<BuildingProfile>(Resources.LoadAll<BuildingProfile>("Buildings"));
@@ -22,9 +22,4 @@ public class BuildingsPanel : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
