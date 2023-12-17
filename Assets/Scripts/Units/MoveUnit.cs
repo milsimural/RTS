@@ -21,18 +21,16 @@ public class MoveUnit : MonoBehaviour
 
     void Update()
     {
-        if (TargetPoint)
-        {
-            Vector3 newPosition =  Vector3.MoveTowards(_selfTransform.position, TargetPoint.position, Speed * Time.deltaTime);
-            Vector3 between = newPosition - _selfTransform.position;
-            _selfAnimator.SetFloat("Speed", between.magnitude / Time.deltaTime);
-            _selfTransform.position = newPosition;
+        //if (TargetPoint)
+        //{
+        //    Vector3 newPosition =  Vector3.MoveTowards(_selfTransform.position, TargetPoint.position, Speed * Time.deltaTime);
+        //    Vector3 between = newPosition - _selfTransform.position;
+        //    _selfAnimator.SetFloat("Speed", between.magnitude / Time.deltaTime);
+        //    _selfTransform.position = newPosition;
 
-            var direction = TargetPoint.position - _selfTransform.position;
-            var angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-            _selfTransform.rotation = Quaternion.Euler(0, 0, angle);
-            
-
-        }    
+        //    var direction = TargetPoint.position - _selfTransform.position;
+        //    var angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        //    _selfTransform.rotation = Quaternion.Euler(0, 0, angle + 90);
+        //}    
     }
 }
