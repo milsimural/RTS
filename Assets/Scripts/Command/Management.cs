@@ -18,7 +18,7 @@ public class Management : MonoBehaviour
 
         if (hit2D) // Если попали в объект с коллайдером
         {
-            if (hit2D.collider.GetComponent<SelectableColaider>()) // Выясняем есть ли у объекта скрипт "SelectableColaider"
+            if (hit2D.collider.GetComponent<SelectableColaider>()) // ЕСЛИ ЭТО ОБЬЕКТ С скриптом "SelectableColaider"
             {
                 SelectableObject hitSelectable = hit2D.collider.GetComponent<SelectableColaider>().SelectableObject; // Получаем из этого срипта ссылку на обьект и пишем ссылку на него в временную переменную
                 
@@ -36,13 +36,16 @@ public class Management : MonoBehaviour
                     Hovered = hitSelectable;
                     Hovered.OnHover();
                 }
+            }
+            else // Если поинт не на объекте с коллайдером
+            {
+                UnhoverCurrent(); // Вызываем метод проверяющий есть ли что то в переменной и снимающий подсветку и убирающий из переменной объект
+            }
+        }
+       
 
-            } 
-        }
-        else // Если поинт не на объекте с коллайдером
-        {
-            UnhoverCurrent(); // Вызываем метод проверяющий есть ли что то в переменной и снимающий подсветку и убирающий из переменной объект
-        }
+
+
 
         if(Input.GetMouseButtonUp(0)) // Когда мы отпускаем кнопку мыши
         {
@@ -55,6 +58,14 @@ public class Management : MonoBehaviour
                 
                 Select(Hovered); // Передаем объект в метод выделения
             }
+
+            if (hit2D.collider.tag == "Ground")
+            {
+                for (int i = 0; i < ListOfSelected.Count; i++)
+                {
+                    ListOfSelected[i].WhenClickOnGround(hit2D.point);
+                }
+            }
         }
 
         if(Input.GetMouseButtonDown(1)) // При ПКМ снимаем выделение
@@ -63,6 +74,8 @@ public class Management : MonoBehaviour
         }
 
     }
+
+    // ===================================================================================================================
 
    void Select(SelectableObject selectableObject) // Метод выделения
     {
