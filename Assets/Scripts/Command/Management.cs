@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Management : MonoBehaviour
 {
@@ -8,8 +9,16 @@ public class Management : MonoBehaviour
     public SelectableObject Hovered; //переменныая для хранения ссылки на обьект в который попали лучем
     public List<SelectableObject> ListOfSelected = new List<SelectableObject>();
 
+    public Image FrameImage;
+    private Vector2 _frameStart;
+    private Vector2 _frameEnd;
 
     public static Vector2 MousePosition; // Статическая переменная прозапас
+
+    private void Start()
+    {
+        FrameImage.enabled = false;
+    }
 
     void Update()
     {
@@ -72,6 +81,32 @@ public class Management : MonoBehaviour
         {
             UnselectAll();
         }
+
+        // ВЫДЕЛЕНИЕ РАМКОЙ
+        if(Input.GetMouseButtonDown(0))
+        {
+            _frameStart = Input.mousePosition;
+        }
+
+        if(Input.GetMouseButton(0))
+        {
+            FrameImage.enabled = true;
+            _frameEnd = Input.mousePosition;
+
+            Vector2 min = Vector2.Min(_frameStart, _frameEnd);
+            Vector2 max = Vector2.Max(_frameStart, _frameEnd);
+
+            FrameImage.rectTransform.anchoredPosition = min;
+           
+            Vector2 size = max - min;
+            FrameImage.rectTransform.sizeDelta = size;
+        }
+
+        if(Input.GetMouseButtonUp(0))
+        {
+            FrameImage.enabled = false;
+        }
+        
 
     }
 
