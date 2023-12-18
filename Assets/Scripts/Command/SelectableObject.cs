@@ -20,6 +20,7 @@ public class SelectableObject : MonoBehaviour
 
         agent.updateRotation = false;
         agent.updateUpAxis = false;
+
     }
 
     public virtual void OnHover()
