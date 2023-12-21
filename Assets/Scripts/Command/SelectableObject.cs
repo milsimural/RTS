@@ -17,11 +17,10 @@ public class SelectableObject : MonoBehaviour
         SelectionIndicator.SetActive(false);
 
         var agent = GetComponent<NavMeshAgent>();
-
-        agent.updateRotation = false;
+        agent.updateRotation = true;
         agent.updateUpAxis = false;
-
     }
+
 
     public virtual void OnHover()
     {

@@ -16,6 +16,8 @@ GameObject:
   - component: {fileID: 5194863070501261213}
   - component: {fileID: 3733042881457756867}
   - component: {fileID: 5721759425037277406}
+  - component: {fileID: 2863159147453209339}
+  - component: {fileID: 3319645167431053692}
   m_Layer: 0
   m_Name: Warrior
   m_TagString: Untagged
@@ -83,7 +85,7 @@ SpriteRenderer:
   m_Sprite: {fileID: 21300000, guid: 9a7d2adfe8d598c47a9385f201e43dcf, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
-  m_FlipY: 0
+  m_FlipY: 1
   m_DrawMode: 0
   m_Size: {x: 0.18, y: 0.14}
   m_AdaptiveModeThreshold: 0.5
@@ -139,6 +141,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SelectionIndicator: {fileID: 5019170541743126615}
   Agent: {fileID: 5721759425037277406}
+  UnitBaseSpeed: 0
+  UnitRotationSpeed: 0
 --- !u!114 &5194863070501261213
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -209,6 +213,30 @@ NavMeshAgent:
   m_BaseOffset: 0.07
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &2863159147453209339
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1789410051899137568}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e39f6090724e4a4a8aadeb042afa2bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3319645167431053692
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1789410051899137568}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8550f034611a06e4f88fc261204d8a7b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5019170541743126615
 GameObject:
   m_ObjectHideFlags: 0
