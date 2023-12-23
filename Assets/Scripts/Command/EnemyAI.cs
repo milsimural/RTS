@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -50,7 +50,6 @@ public class EnemyAI : Unit
                 }
                 else
                 {
-                    //Debug.Log(Vector2.Distance(transform.position, movePoint[curWaypoint].position));
                     MoveToPoint(movePoint[curWaypoint].position);
                 }
             }
@@ -96,8 +95,9 @@ public class EnemyAI : Unit
                 speed = Mathf.MoveTowards(speed, runSpeed, Time.deltaTime * 3);
             else speed = Mathf.MoveTowards(speed, walkSpeed, Time.deltaTime * 3);
 
-            //anim.SetFloat("Speed", speed);
+            anim.SetFloat("Speed", speed);
             Agent.speed = speed;
+            Debug.Log(speed);
 
             lineRenderer.positionCount = Agent.path.corners.Length;
             lineRenderer.SetPositions(Agent.path.corners);
@@ -109,25 +109,21 @@ public class EnemyAI : Unit
 
     public bool RotationToTarget(Vector3 point)
     {
-        //var position = new Vector3(point.x, point.y, transform.position.z);
-        //Vector3 direction = (position - transform.position).normalized;
-        //Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, direction.y, direction.z));
-
-        //Vector3 direction = (point - transform.position).normalized;
-        //Debug.Log(direction);
-        //Quaternion lookRotation = Quaternion.LookRotation(new Vector2(direction.x, direction.y));
-        //transform.rotation = Quaternion.RotateTowards(transform.rotation, lookRotation, Time.deltaTime * rotationSpeed);
-
         Vector2 targetPoint = new Vector2(point.x, point.y);
         var direction = targetPoint - new Vector2(transform.position.x, transform.position.y);
         var angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.Euler(0, 0, angle);
-        return true;
+        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0, 0, angle), rotationSpeed * Time.deltaTime);
 
-
-        //if (transform.rotation == lookRotation)
-        //    return true;
-        //else return false;
+        if (transform.rotation == Quaternion.Euler(0, 0, angle))
+        {
+            
+            return true;
+        }
+        else
+        {
+            
+            return false;
+        }    
     }
 
     public void Stop()
@@ -136,8 +132,14 @@ public class EnemyAI : Unit
         {
             Agent.SetDestination(transform.position);
             speed = Mathf.MoveTowards(speed, 0, Time.deltaTime * 15);
-            //anim.SetFloat("Speed", speed);
+            anim.SetFloat("Speed", speed);
             Agent.speed = speed;
         }
+    }
+
+    public float SkillSwordMiddleAttack(Sword swordItem)
+    {
+        float damage = swordItem.Damage;
+        return damage;
     }
 }
