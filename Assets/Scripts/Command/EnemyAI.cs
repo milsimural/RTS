@@ -1,0 +1,143 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class EnemyAI : Unit
+{
+    public Transform[] movePoint;
+    public Animator anim;
+    
+    public bool circularRoute;
+    public int curWaypoint;
+
+    public float distance;
+    private Vector3 moveToPoint;
+
+    public float speed;
+    public float walkSpeed;
+    public float runSpeed;
+    public float rotationSpeed;
+
+    LineRenderer lineRenderer;
+
+    public bool fast;
+
+    private void Start()
+    {
+        SelectionIndicator.SetActive(false);
+        Agent.updateRotation = false;
+        Agent.updateUpAxis = false;
+
+        moveToPoint = transform.position;
+
+        lineRenderer = GetComponent<LineRenderer>();
+    }
+
+    private void Update()
+    {
+        Patrol();
+    }
+
+    public void Patrol()
+    {
+        if(movePoint.Length >= 1)
+        {
+            if(movePoint.Length > curWaypoint)
+            {
+                if(Vector2.Distance(transform.position, movePoint[curWaypoint].position) < 0.2f)
+                {
+                    curWaypoint++;
+                }
+                else
+                {
+                    //Debug.Log(Vector2.Distance(transform.position, movePoint[curWaypoint].position));
+                    MoveToPoint(movePoint[curWaypoint].position);
+                }
+            }
+            else if(movePoint.Length == curWaypoint)
+            {
+                if (circularRoute)
+                {
+                    if (movePoint.Length > 1)
+                        curWaypoint = 0;
+                    else circularRoute = false;
+                }
+                    
+                else
+                {
+                    if (Vector2.Distance(transform.position, movePoint[curWaypoint - 1].position) < 0.2f)
+                        Stop();
+                    else
+                    {
+                        MoveToPoint(movePoint[curWaypoint - 1].position);
+                    }
+                }
+            }
+        }
+        else
+        {
+            Stop();
+        }
+    }
+
+    public void MoveToPoint(Vector2 point)
+    {
+        var position = new Vector3(point.x, point.y, transform.position.z);
+        
+        if(moveToPoint != position)
+        {
+            Agent.SetDestination(position);
+            moveToPoint = position;
+        }
+
+        if (Agent.hasPath)
+        {
+            if (fast)
+                speed = Mathf.MoveTowards(speed, runSpeed, Time.deltaTime * 3);
+            else speed = Mathf.MoveTowards(speed, walkSpeed, Time.deltaTime * 3);
+
+            //anim.SetFloat("Speed", speed);
+            Agent.speed = speed;
+
+            lineRenderer.positionCount = Agent.path.corners.Length;
+            lineRenderer.SetPositions(Agent.path.corners);
+
+            RotationToTarget(Agent.path.corners[1]);
+        }
+        else RotationToTarget(moveToPoint);
+    }
+
+    public bool RotationToTarget(Vector3 point)
+    {
+        //var position = new Vector3(point.x, point.y, transform.position.z);
+        //Vector3 direction = (position - transform.position).normalized;
+        //Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, direction.y, direction.z));
+
+        //Vector3 direction = (point - transform.position).normalized;
+        //Debug.Log(direction);
+        //Quaternion lookRotation = Quaternion.LookRotation(new Vector2(direction.x, direction.y));
+        //transform.rotation = Quaternion.RotateTowards(transform.rotation, lookRotation, Time.deltaTime * rotationSpeed);
+
+        Vector2 targetPoint = new Vector2(point.x, point.y);
+        var direction = targetPoint - new Vector2(transform.position.x, transform.position.y);
+        var angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.Euler(0, 0, angle);
+        return true;
+
+
+        //if (transform.rotation == lookRotation)
+        //    return true;
+        //else return false;
+    }
+
+    public void Stop()
+    {
+        if(speed > 0)
+        {
+            Agent.SetDestination(transform.position);
+            speed = Mathf.MoveTowards(speed, 0, Time.deltaTime * 15);
+            //anim.SetFloat("Speed", speed);
+            Agent.speed = speed;
+        }
+    }
+}

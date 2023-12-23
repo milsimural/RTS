@@ -12,14 +12,14 @@ public class SelectableObject : MonoBehaviour
 
     public GameObject SelectionIndicator; // Индикатор того что обьект выделен
 
-    public void Start()
-    {
-        SelectionIndicator.SetActive(false);
+    //public void Start()
+    //{
+    //    SelectionIndicator.SetActive(false);
 
-        var agent = GetComponent<NavMeshAgent>();
-        agent.updateRotation = true;
-        agent.updateUpAxis = false;
-    }
+    //    var agent = GetComponent<NavMeshAgent>();
+    //    agent.updateRotation = true;
+    //    agent.updateUpAxis = false;
+    //}
 
 
     public virtual void OnHover()

@@ -4,5 +4,8 @@ using UnityEngine;
 
 public class Warrior : Unit
 {
-
+    private void Start()
+    {
+        SelectionIndicator.SetActive(false);
+    }
 }
