@@ -3,6 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+public enum SelectionState
+{
+    UnitsSelected,
+    Frame,
+    Other
+}
+
 public class Management : MonoBehaviour
 {
     public Camera Camera; //ссылка на камеру
@@ -14,6 +21,8 @@ public class Management : MonoBehaviour
     private Vector2 _frameEnd;
 
     public static Vector2 MousePosition; // Статическая переменная прозапас
+
+    public SelectionState CurrentSelectionState;
 
     private void Start()
     {
@@ -63,21 +72,28 @@ public class Management : MonoBehaviour
                 if(Input.GetKey(KeyCode.LeftControl) == false) // Если не нажат контрол то объекты будут развыделяться при нажатии на новый
                 {
                     UnselectAll(); // Вызываем метод который снимает выделения и очищает список
-                } 
-                
-                Select(Hovered); // Передаем объект в метод выделения
-            }
-
-            if (hit2D.collider.tag == "Ground")
-            {
-                for (int i = 0; i < ListOfSelected.Count; i++)
-                {
-                    ListOfSelected[i].WhenClickOnGround(hit2D.point);
                 }
+                CurrentSelectionState = SelectionState.UnitsSelected;
+                Select(Hovered); // Передаем объект в метод выделения
             }
         }
 
-        if(Input.GetMouseButtonDown(1)) // При ПКМ снимаем выделение
+        if(CurrentSelectionState == SelectionState.UnitsSelected)
+        {
+            if (Input.GetMouseButtonUp(0))
+            {
+                if (hit2D.collider.tag == "Ground")
+                {
+                    for (int i = 0; i < ListOfSelected.Count; i++)
+                    {
+                        ListOfSelected[i].WhenClickOnGround(hit2D.point);
+                    }
+                }
+            }
+        }
+        
+
+            if (Input.GetMouseButtonDown(1)) // При ПКМ снимаем выделение
         {
             UnselectAll();
         }
@@ -90,21 +106,51 @@ public class Management : MonoBehaviour
 
         if(Input.GetMouseButton(0))
         {
-            FrameImage.enabled = true;
+            
             _frameEnd = Input.mousePosition;
 
             Vector2 min = Vector2.Min(_frameStart, _frameEnd);
             Vector2 max = Vector2.Max(_frameStart, _frameEnd);
-
-            FrameImage.rectTransform.anchoredPosition = min;
-           
             Vector2 size = max - min;
-            FrameImage.rectTransform.sizeDelta = size;
+            FrameImage.rectTransform.anchoredPosition = min;
+
+            if(size.magnitude > 10)
+            {
+                
+                
+                FrameImage.enabled = true;
+                FrameImage.rectTransform.sizeDelta = size;
+
+                Rect rect = new Rect(min, size);
+
+                UnselectAll();
+                Unit[] allUnits = FindObjectsOfType<Unit>();
+                for (int i = 0; i < allUnits.Length; i++)
+                {
+                    Vector2 screenPosition = Camera.WorldToScreenPoint(allUnits[i].transform.position);
+                    if (rect.Contains(screenPosition))
+                    {
+                        Select(allUnits[i]);
+                    }
+                }
+
+                CurrentSelectionState = SelectionState.Frame;
+            }
+            
+            
         }
 
         if(Input.GetMouseButtonUp(0))
         {
             FrameImage.enabled = false;
+            if(ListOfSelected.Count > 0)
+            {
+                CurrentSelectionState = SelectionState.UnitsSelected;
+            }
+            else
+            {
+                CurrentSelectionState = SelectionState.Other;
+            }
         }
         
 
@@ -128,6 +174,7 @@ public class Management : MonoBehaviour
             ListOfSelected[i].UnSelect(); // Снимаем все выделения
         }
         ListOfSelected.Clear();
+        CurrentSelectionState = SelectionState.Other;
     }
 
     void UnhoverCurrent() // Метод проверяющий есть ли что то в переменной и снимающий подсветку и убирающий из переменной объект
