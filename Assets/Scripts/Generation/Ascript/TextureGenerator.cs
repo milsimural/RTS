@@ -49,6 +49,7 @@ public static class TextureGenerator {
 		
 		texture.SetPixels(pixels);
 		texture.wrapMode = TextureWrapMode.Clamp;
+		texture.filterMode = FilterMode.Point;
 		texture.Apply();
 		return texture;
 	}

@@ -15,11 +15,11 @@ public class Generator : MonoBehaviour {
 	[SerializeField]
 	float DeepWater = 0.2f;
 	[SerializeField]
-	float ShallowWater = 0.4f;	
+	float ShallowWater = 0.48f;	
 	[SerializeField]
 	float Sand = 0.5f;
 	[SerializeField]
-	float Grass = 0.7f;
+	float Grass = 0.6f;
 	[SerializeField]
 	float Forest = 0.8f;
 	[SerializeField]
