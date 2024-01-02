@@ -1,4 +1,4 @@
-using System.Collections;
+п»їusing System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,15 +12,15 @@ public enum SelectionState
 
 public class Management : MonoBehaviour
 {
-    public Camera Camera; //ссылка на камеру
-    public SelectableObject Hovered; //переменныая для хранения ссылки на обьект в который попали лучем
+    public Camera Camera; //СЃСЃС‹Р»РєР° РЅР° РєР°РјРµСЂСѓ
+    public SelectableObject Hovered; //РїРµСЂРµРјРµРЅРЅС‹Р°СЏ РґР»СЏ С…СЂР°РЅРµРЅРёСЏ СЃСЃС‹Р»РєРё РЅР° РѕР±СЊРµРєС‚ РІ РєРѕС‚РѕСЂС‹Р№ РїРѕРїР°Р»Рё Р»СѓС‡РµРј
     public List<SelectableObject> ListOfSelected = new List<SelectableObject>();
 
     public Image FrameImage;
     private Vector2 _frameStart;
     private Vector2 _frameEnd;
 
-    public static Vector2 MousePosition; // Статическая переменная прозапас
+    public static Vector2 MousePosition; // РЎС‚Р°С‚РёС‡РµСЃРєР°СЏ РїРµСЂРµРјРµРЅРЅР°СЏ РїСЂРѕР·Р°РїР°СЃ
 
     public SelectionState CurrentSelectionState;
 
@@ -34,19 +34,19 @@ public class Management : MonoBehaviour
         MousePosition = new Vector2(Camera.ScreenToWorldPoint(Input.mousePosition).x, Camera.ScreenToWorldPoint(Input.mousePosition).y);
         RaycastHit2D hit2D = Physics2D.Raycast(MousePosition, Vector2.zero, 0f);
 
-        if (hit2D) // Если попали в объект с коллайдером
+        if (hit2D) // Р•СЃР»Рё РїРѕРїР°Р»Рё РІ РѕР±СЉРµРєС‚ СЃ РєРѕР»Р»Р°Р№РґРµСЂРѕРј
         {
-            if (hit2D.collider.GetComponent<SelectableColaider>()) // ЕСЛИ ЭТО ОБЬЕКТ С скриптом "SelectableColaider"
+            if (hit2D.collider.GetComponent<SelectableColaider>() && !hit2D.collider.GetComponent<EnemyAI>()) // Р•РЎР›Р Р­РўРћ РћР‘Р¬Р•РљРў РЎ СЃРєСЂРёРїС‚РѕРј "SelectableColaider"
             {
-                SelectableObject hitSelectable = hit2D.collider.GetComponent<SelectableColaider>().SelectableObject; // Получаем из этого срипта ссылку на обьект и пишем ссылку на него в временную переменную
+                SelectableObject hitSelectable = hit2D.collider.GetComponent<SelectableColaider>().SelectableObject; // РџРѕР»СѓС‡Р°РµРј РёР· СЌС‚РѕРіРѕ СЃСЂРёРїС‚Р° СЃСЃС‹Р»РєСѓ РЅР° РѕР±СЊРµРєС‚ Рё РїРёС€РµРј СЃСЃС‹Р»РєСѓ РЅР° РЅРµРіРѕ РІ РІСЂРµРјРµРЅРЅСѓСЋ РїРµСЂРµРјРµРЅРЅСѓСЋ
                 
-                if(Hovered) // Если какой то объект уже лежал в этой переменной -> ДА, КАКОЙ ТО ЛЕЖИТ
+                if(Hovered) // Р•СЃР»Рё РєР°РєРѕР№ С‚Рѕ РѕР±СЉРµРєС‚ СѓР¶Рµ Р»РµР¶Р°Р» РІ СЌС‚РѕР№ РїРµСЂРµРјРµРЅРЅРѕР№ -> Р”Рђ, РљРђРљРћР™ РўРћ Р›Р•Р–РРў
                 {
-                    if(Hovered != hitSelectable) // Этот тот же самый объект на который мы навелись?  -> НЕТ, ЭТО ДРУГОЙ
+                    if(Hovered != hitSelectable) // Р­С‚РѕС‚ С‚РѕС‚ Р¶Рµ СЃР°РјС‹Р№ РѕР±СЉРµРєС‚ РЅР° РєРѕС‚РѕСЂС‹Р№ РјС‹ РЅР°РІРµР»РёСЃСЊ?  -> РќР•Рў, Р­РўРћ Р”Р РЈР“РћР™
                     {
-                        Hovered.OnUnHover(); // Убераем подсветку с того объекта который сейчас в переменной
-                        Hovered = hitSelectable; // Перезаписываем в переменную новый объект на который навелись
-                        Hovered.OnHover(); // Включаем подсветку объекта в переменной
+                        Hovered.OnUnHover(); // РЈР±РµСЂР°РµРј РїРѕРґСЃРІРµС‚РєСѓ СЃ С‚РѕРіРѕ РѕР±СЉРµРєС‚Р° РєРѕС‚РѕСЂС‹Р№ СЃРµР№С‡Р°СЃ РІ РїРµСЂРµРјРµРЅРЅРѕР№
+                        Hovered = hitSelectable; // РџРµСЂРµР·Р°РїРёСЃС‹РІР°РµРј РІ РїРµСЂРµРјРµРЅРЅСѓСЋ РЅРѕРІС‹Р№ РѕР±СЉРµРєС‚ РЅР° РєРѕС‚РѕСЂС‹Р№ РЅР°РІРµР»РёСЃСЊ
+                        Hovered.OnHover(); // Р’РєР»СЋС‡Р°РµРј РїРѕРґСЃРІРµС‚РєСѓ РѕР±СЉРµРєС‚Р° РІ РїРµСЂРµРјРµРЅРЅРѕР№
                     }
                 }
                 else
@@ -55,9 +55,9 @@ public class Management : MonoBehaviour
                     Hovered.OnHover();
                 }
             }
-            else // Если поинт не на объекте с коллайдером
+            else // Р•СЃР»Рё РїРѕРёРЅС‚ РЅРµ РЅР° РѕР±СЉРµРєС‚Рµ СЃ РєРѕР»Р»Р°Р№РґРµСЂРѕРј
             {
-                UnhoverCurrent(); // Вызываем метод проверяющий есть ли что то в переменной и снимающий подсветку и убирающий из переменной объект
+                UnhoverCurrent(); // Р’С‹Р·С‹РІР°РµРј РјРµС‚РѕРґ РїСЂРѕРІРµСЂСЏСЋС‰РёР№ РµСЃС‚СЊ Р»Рё С‡С‚Рѕ С‚Рѕ РІ РїРµСЂРµРјРµРЅРЅРѕР№ Рё СЃРЅРёРјР°СЋС‰РёР№ РїРѕРґСЃРІРµС‚РєСѓ Рё СѓР±РёСЂР°СЋС‰РёР№ РёР· РїРµСЂРµРјРµРЅРЅРѕР№ РѕР±СЉРµРєС‚
             }
         }
        
@@ -65,16 +65,16 @@ public class Management : MonoBehaviour
 
 
 
-        if(Input.GetMouseButtonUp(0)) // Когда мы отпускаем кнопку мыши
+        if(Input.GetMouseButtonUp(0)) // РљРѕРіРґР° РјС‹ РѕС‚РїСѓСЃРєР°РµРј РєРЅРѕРїРєСѓ РјС‹С€Рё
         {
-            if(Hovered) // Если мы наведены на объект подходящий по условиям (он лежит в переменной)
+            if(Hovered) // Р•СЃР»Рё РјС‹ РЅР°РІРµРґРµРЅС‹ РЅР° РѕР±СЉРµРєС‚ РїРѕРґС…РѕРґСЏС‰РёР№ РїРѕ СѓСЃР»РѕРІРёСЏРј (РѕРЅ Р»РµР¶РёС‚ РІ РїРµСЂРµРјРµРЅРЅРѕР№)
             {
-                if(Input.GetKey(KeyCode.LeftControl) == false) // Если не нажат контрол то объекты будут развыделяться при нажатии на новый
+                if(Input.GetKey(KeyCode.LeftControl) == false) // Р•СЃР»Рё РЅРµ РЅР°Р¶Р°С‚ РєРѕРЅС‚СЂРѕР» С‚Рѕ РѕР±СЉРµРєС‚С‹ Р±СѓРґСѓС‚ СЂР°Р·РІС‹РґРµР»СЏС‚СЊСЃСЏ РїСЂРё РЅР°Р¶Р°С‚РёРё РЅР° РЅРѕРІС‹Р№
                 {
-                    UnselectAll(); // Вызываем метод который снимает выделения и очищает список
+                    UnselectAll(); // Р’С‹Р·С‹РІР°РµРј РјРµС‚РѕРґ РєРѕС‚РѕСЂС‹Р№ СЃРЅРёРјР°РµС‚ РІС‹РґРµР»РµРЅРёСЏ Рё РѕС‡РёС‰Р°РµС‚ СЃРїРёСЃРѕРє
                 }
                 CurrentSelectionState = SelectionState.UnitsSelected;
-                Select(Hovered); // Передаем объект в метод выделения
+                Select(Hovered); // РџРµСЂРµРґР°РµРј РѕР±СЉРµРєС‚ РІ РјРµС‚РѕРґ РІС‹РґРµР»РµРЅРёСЏ
             }
         }
 
@@ -93,12 +93,12 @@ public class Management : MonoBehaviour
         }
         
 
-            if (Input.GetMouseButtonDown(1)) // При ПКМ снимаем выделение
+            if (Input.GetMouseButtonDown(1)) // РџСЂРё РџРљРњ СЃРЅРёРјР°РµРј РІС‹РґРµР»РµРЅРёРµ
         {
             UnselectAll();
         }
 
-        // ВЫДЕЛЕНИЕ РАМКОЙ
+        // Р’Р«Р”Р•Р›Р•РќРР• Р РђРњРљРћР™
         if(Input.GetMouseButtonDown(0))
         {
             _frameStart = Input.mousePosition;
@@ -124,7 +124,7 @@ public class Management : MonoBehaviour
                 Rect rect = new Rect(min, size);
 
                 UnselectAll();
-                Unit[] allUnits = FindObjectsOfType<Unit>();
+                Unit[] allUnits = FindObjectsOfType<UserUnit>();
                 for (int i = 0; i < allUnits.Length; i++)
                 {
                     Vector2 screenPosition = Camera.WorldToScreenPoint(allUnits[i].transform.position);
@@ -158,31 +158,31 @@ public class Management : MonoBehaviour
 
     // ===================================================================================================================
 
-   void Select(SelectableObject selectableObject) // Метод выделения
+   void Select(SelectableObject selectableObject) // РњРµС‚РѕРґ РІС‹РґРµР»РµРЅРёСЏ
     {
-        if (ListOfSelected.Contains(selectableObject) == false) // проверяем есть ли объект в списке уже -> ЕГО НЕТ В СПИСКЕ
+        if (ListOfSelected.Contains(selectableObject) == false) // РїСЂРѕРІРµСЂСЏРµРј РµСЃС‚СЊ Р»Рё РѕР±СЉРµРєС‚ РІ СЃРїРёСЃРєРµ СѓР¶Рµ -> Р•Р“Рћ РќР•Рў Р’ РЎРџРРЎРљР•
         {
-            ListOfSelected.Add(selectableObject); // добавляем это в лист
-            selectableObject.Select(); // И включаем круг
+            ListOfSelected.Add(selectableObject); // РґРѕР±Р°РІР»СЏРµРј СЌС‚Рѕ РІ Р»РёСЃС‚
+            selectableObject.Select(); // Р РІРєР»СЋС‡Р°РµРј РєСЂСѓРі
         }
     }
 
-    void UnselectAll() // Метод который снимает выделения и очищает список
+    void UnselectAll() // РњРµС‚РѕРґ РєРѕС‚РѕСЂС‹Р№ СЃРЅРёРјР°РµС‚ РІС‹РґРµР»РµРЅРёСЏ Рё РѕС‡РёС‰Р°РµС‚ СЃРїРёСЃРѕРє
     {
-        for (int i = 0; i < ListOfSelected.Count; i++) // Сначала перебираем список обьектов в листе 
+        for (int i = 0; i < ListOfSelected.Count; i++) // РЎРЅР°С‡Р°Р»Р° РїРµСЂРµР±РёСЂР°РµРј СЃРїРёСЃРѕРє РѕР±СЊРµРєС‚РѕРІ РІ Р»РёСЃС‚Рµ 
         {
-            ListOfSelected[i].UnSelect(); // Снимаем все выделения
+            ListOfSelected[i].UnSelect(); // РЎРЅРёРјР°РµРј РІСЃРµ РІС‹РґРµР»РµРЅРёСЏ
         }
         ListOfSelected.Clear();
         CurrentSelectionState = SelectionState.Other;
     }
 
-    void UnhoverCurrent() // Метод проверяющий есть ли что то в переменной и снимающий подсветку и убирающий из переменной объект
+    void UnhoverCurrent() // РњРµС‚РѕРґ РїСЂРѕРІРµСЂСЏСЋС‰РёР№ РµСЃС‚СЊ Р»Рё С‡С‚Рѕ С‚Рѕ РІ РїРµСЂРµРјРµРЅРЅРѕР№ Рё СЃРЅРёРјР°СЋС‰РёР№ РїРѕРґСЃРІРµС‚РєСѓ Рё СѓР±РёСЂР°СЋС‰РёР№ РёР· РїРµСЂРµРјРµРЅРЅРѕР№ РѕР±СЉРµРєС‚
     {
-        if (Hovered) // Если в переменной хранится какой то объект -> ДА, КАКОЙ ТО ЛЕЖИТ
+        if (Hovered) // Р•СЃР»Рё РІ РїРµСЂРµРјРµРЅРЅРѕР№ С…СЂР°РЅРёС‚СЃСЏ РєР°РєРѕР№ С‚Рѕ РѕР±СЉРµРєС‚ -> Р”Рђ, РљРђРљРћР™ РўРћ Р›Р•Р–РРў
         {
-            Hovered.OnUnHover(); // Мы убераем ему подсветку
-            Hovered = null; // И все удаляем из переменной
+            Hovered.OnUnHover(); // РњС‹ СѓР±РµСЂР°РµРј РµРјСѓ РїРѕРґСЃРІРµС‚РєСѓ
+            Hovered = null; // Р РІСЃРµ СѓРґР°Р»СЏРµРј РёР· РїРµСЂРµРјРµРЅРЅРѕР№
         }
     }
 }

@@ -152,8 +152,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e33ef6dcab3bf2f44b0135f01e1818c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Width: 96
-  Height: 96
+  Width: 1000
+  Height: 1000
   TerrainOctaves: 6
   TerrainFrequency: 1.25
   DeepWater: 0.2

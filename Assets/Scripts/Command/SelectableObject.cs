@@ -1,16 +1,16 @@
-using System.Collections;
+п»їusing System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class SelectableObject : MonoBehaviour
 {
-    // Можно выделить
-    // Можно снять выделение
-    // Реагируем на наведение курсора
-    // Реагируем на покидание курсора
+    // РњРѕР¶РЅРѕ РІС‹РґРµР»РёС‚СЊ
+    // РњРѕР¶РЅРѕ СЃРЅСЏС‚СЊ РІС‹РґРµР»РµРЅРёРµ
+    // Р РµР°РіРёСЂСѓРµРј РЅР° РЅР°РІРµРґРµРЅРёРµ РєСѓСЂСЃРѕСЂР°
+    // Р РµР°РіРёСЂСѓРµРј РЅР° РїРѕРєРёРґР°РЅРёРµ РєСѓСЂСЃРѕСЂР°
 
-    public GameObject SelectionIndicator; // Индикатор того что обьект выделен
+    public GameObject SelectionIndicator; // РРЅРґРёРєР°С‚РѕСЂ С‚РѕРіРѕ С‡С‚Рѕ РѕР±СЊРµРєС‚ РІС‹РґРµР»РµРЅ
 
     //public void Start()
     //{
