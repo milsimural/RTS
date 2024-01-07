@@ -24,23 +24,28 @@ public class Management : MonoBehaviour
 
     public SelectionState CurrentSelectionState;
 
+    //==Геометрический центр выделенных юнитов==/
+    public Vector2 GeometryCenter;
+    public Transform GeometryCenterPoint;
+
     private void Start()
     {
         FrameImage.enabled = false;
+        GeometryCenterPoint.gameObject.SetActive(false);
     }
 
     void Update()
     {
         MousePosition = new Vector2(Camera.ScreenToWorldPoint(Input.mousePosition).x, Camera.ScreenToWorldPoint(Input.mousePosition).y);
         RaycastHit2D hit2D = Physics2D.Raycast(MousePosition, Vector2.zero, 0f);
-
+        
         if (hit2D) // Если попали в объект с коллайдером
         {
-            if (hit2D.collider.GetComponent<SelectableColaider>() && !hit2D.collider.GetComponent<EnemyAI>()) // ЕСЛИ ЭТО ОБЬЕКТ С скриптом "SelectableColaider"
+            if (hit2D.collider.GetComponent<SelectableCollaider>() && !hit2D.collider.GetComponent<EnemyAI>()) // ЕСЛИ ЭТО ОБЬЕКТ С скриптом "SelectableColaider"
             {
-                SelectableObject hitSelectable = hit2D.collider.GetComponent<SelectableColaider>().SelectableObject; // Получаем из этого срипта ссылку на обьект и пишем ссылку на него в временную переменную
-                
-                if(Hovered) // Если какой то объект уже лежал в этой переменной -> ДА, КАКОЙ ТО ЛЕЖИТ
+                SelectableObject hitSelectable = hit2D.collider.GetComponent<SelectableCollaider>().SelectableObject; // Получаем из этого срипта ссылку на обьект и пишем ссылку на него в временную переменную
+
+                    if (Hovered) // Если какой то объект уже лежал в этой переменной -> ДА, КАКОЙ ТО ЛЕЖИТ
                 {
                     if(Hovered != hitSelectable) // Этот тот же самый объект на который мы навелись?  -> НЕТ, ЭТО ДРУГОЙ
                     {
@@ -60,10 +65,6 @@ public class Management : MonoBehaviour
                 UnhoverCurrent(); // Вызываем метод проверяющий есть ли что то в переменной и снимающий подсветку и убирающий из переменной объект
             }
         }
-       
-
-
-
 
         if(Input.GetMouseButtonUp(0)) // Когда мы отпускаем кнопку мыши
         {
@@ -78,7 +79,7 @@ public class Management : MonoBehaviour
             }
         }
 
-        if(CurrentSelectionState == SelectionState.UnitsSelected)
+        if(CurrentSelectionState == SelectionState.UnitsSelected) // При нажатии на землю и отжатию отдается команда юнитам идти в точку.
         {
             if (Input.GetMouseButtonUp(0))
             {
@@ -153,6 +154,28 @@ public class Management : MonoBehaviour
             }
         }
         
+        if(ListOfSelected.Count > 0)
+        {
+            float sumx = 0;
+            float sumy = 0;
+
+            for(int i = 0; i < ListOfSelected.Count; i++)
+            {
+                sumx += ListOfSelected[i].transform.position.x;
+                sumy += ListOfSelected[i].transform.position.y;
+            }
+
+            Vector2 average = new Vector2(sumx / ListOfSelected.Count, sumy / ListOfSelected.Count);
+            Debug.Log(average);
+            GeometryCenter = average;
+            GeometryCenterPoint.gameObject.SetActive(true);
+            GeometryCenterPoint.transform.position = new Vector3(average.x, average.y, transform.position.z);
+
+        }
+        else
+        {
+            GeometryCenterPoint.gameObject.SetActive(false);
+        }
 
     }
 

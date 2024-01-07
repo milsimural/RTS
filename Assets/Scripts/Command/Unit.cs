@@ -1,12 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using Unity.Collections.LowLevel.Unsafe;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class Unit : SelectableObject
 {
+
     public Animator anim;
     public NavMeshAgent Agent;
 
@@ -36,6 +38,7 @@ public class Unit : SelectableObject
 
     //==Behavior==//
     public bool isPatrol;
+    public Transform Utils;
 
     //==Attack==//
     public enum _attackState
@@ -51,6 +54,18 @@ public class Unit : SelectableObject
     public _attackState AttackState;
     public float AttackRange;
 
+    //==HP==//
+
+    public int MaxHP;
+    public int CurrentHP;
+
+    public enum _healthState
+    {
+        Full, Injured, Low, Critical
+    }
+
+    public _healthState HealthState;
+
 
     private void Start()
     {
@@ -65,6 +80,7 @@ public class Unit : SelectableObject
         path = new NavMeshPath();
 
         AttackState = _attackState.No;
+        HealthState = _healthState.Full;
     }
 
     // Юнит последовательно двигается по заданным точкам
@@ -257,5 +273,51 @@ public class Unit : SelectableObject
     public virtual void RotateToHitBoxes(GameObject target)
     {
 
+    }
+
+    //==HP Metods==//
+
+    public virtual void MinusHP(int amount)
+    {
+        CurrentHP -= amount;
+        if(CurrentHP < 0)
+        {
+            Coma();
+        }
+    }
+
+    public virtual void PlusHP(int amount)
+    {
+        CurrentHP += amount;
+        if(CurrentHP > MaxHP)
+        {
+            CurrentHP = MaxHP;
+        }
+    }
+
+    public virtual void Injured(_healthState healthState) // Если Юнит ранен то раз в определенное время запускается этот метод.
+    {
+        if(healthState == _healthState.Injured)
+        {
+            MinusHP(1);
+        }
+        else if(healthState == _healthState.Low)
+        {
+            MinusHP(2);
+        }
+        else if(healthState == _healthState.Critical)
+        {
+            MinusHP(3);
+        }
+    }
+
+    public virtual void Coma() // Метод отправляющий Юнит в кому.
+    {
+        anim.SetTrigger("Coma");
+        SelectableType = _SelectableType.UnitComa;
+        Utils.gameObject.SetActive(false); // Выключаем все коллайдеры, тригерры
+        GetComponent<LineRenderer>().enabled = false;
+        GetComponent<NavMeshAgent>().enabled = false;
+        SelectionIndicator.GetComponent<SpriteRenderer>().color = Color.gray;
     }
 }

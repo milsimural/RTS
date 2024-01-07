@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 using static UnityEngine.GraphicsBuffer;
@@ -11,19 +12,28 @@ public class UserUnit : Unit
 
     private void Update()
     {
-        if (Target != Vector2.zero && Vector2.Distance(transform.position, Target) > 0.2f)
+        if(SelectableType == _SelectableType.Unit)
         {
-            MoveToPoint(Target);
+            if (Target != Vector2.zero && Vector2.Distance(transform.position, Target) > 0.2f)
+            {
+                MoveToPoint(Target);
+            }
+            else
+            {
+                Stop();
+            }
+
+            if (Input.GetKey(KeyCode.J))
+            {
+                Coma();
+            }
         }
-        else
-        {
-            Stop();
-        }
+        
     }
 
     public override void WhenClickOnGround(Vector2 point) // Приказ идти в точку клика
     {
-        //base.WhenClickOnGround(point);
         Target = point;
     }
+
 }

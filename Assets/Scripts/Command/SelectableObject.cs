@@ -11,15 +11,15 @@ public class SelectableObject : MonoBehaviour
     // Реагируем на покидание курсора
 
     public GameObject SelectionIndicator; // Индикатор того что обьект выделен
+    
 
-    //public void Start()
-    //{
-    //    SelectionIndicator.SetActive(false);
+    // Вид объекта
+    public enum _SelectableType
+    {
+        Unit, UnitComa, UnitWreck, Enemy, EnemyComa, EnemyWreck, Building, BuildingComa, Resouce 
+    }
 
-    //    var agent = GetComponent<NavMeshAgent>();
-    //    agent.updateRotation = true;
-    //    agent.updateUpAxis = false;
-    //}
+    public _SelectableType SelectableType;
 
 
     public virtual void OnHover()
