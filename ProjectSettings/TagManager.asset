@@ -5,14 +5,15 @@ TagManager:
   serializedVersion: 2
   tags:
   - Ground
+  - CanHit
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Unit
   - Water
   - UI
-  - 
+  - Enemy
   - 
   - 
   - 

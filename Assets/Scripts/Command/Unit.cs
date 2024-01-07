@@ -1,33 +1,56 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class Unit : SelectableObject
 {
+    public Animator anim;
     public NavMeshAgent Agent;
 
-    public Transform[] movePoint;
-    public Animator anim;
+    public Transform[] movePoint; // Points
+    
 
     public bool circularRoute;
     public int curWaypoint;
-
     public float distance;
-
-    private Vector3 moveToPoint;
-
+    private Vector3 moveToPoint; // Point where unit have to go
     public float speed;
     public float walkSpeed;
     public float runSpeed;
     public float rotationSpeed;
-
-    private LineRenderer lineRenderer;
-
     public bool fast;
 
+    private LineRenderer lineRenderer;
     public NavMeshPath path;
+
+    //==UnitStats==//
+    public float UnitPower;
+
+    //==Unit Vision==//
+    public float UnitVisionAngle;
+    public float UnitVisionDistance;
+
+
+    //==Behavior==//
+    public bool isPatrol;
+
+    //==Attack==//
+    public enum _attackState
+    {
+        InStrike,
+        InBlock,
+        InDefenceMove,
+        InDefenceIdle,
+        GoToTarget,
+        No
+    }
+
+    public _attackState AttackState;
+    public float AttackRange;
+
 
     private void Start()
     {
@@ -40,8 +63,11 @@ public class Unit : SelectableObject
         lineRenderer = GetComponent<LineRenderer>();
 
         path = new NavMeshPath();
+
+        AttackState = _attackState.No;
     }
 
+    // Юнит последовательно двигается по заданным точкам
     public void Patrol()
     {
         if (movePoint.Length >= 1)
@@ -143,9 +169,93 @@ public class Unit : SelectableObject
         }
     }
 
-    public float SkillSwordMiddleAttack(Sword swordItem)
+    //==Attack Scripts==//
+    public void GoToTarget(Vector2 targetPosition)
     {
-        float damage = swordItem.Damage;
-        return damage;
+        MoveToPoint(targetPosition);
+    }
+
+    public Vector2 TrackingTarget(GameObject target)
+    {
+        if(target != null)
+        {
+            return new Vector2(target.transform.position.x, target.transform.position.y);
+        }
+        else
+        {
+            return Vector2.zero;
+        }
+        
+    }
+
+    public GameObject ChooseNearestTarget(GameObject[] avalibleTargets)
+    {
+        float distanceToTarget = 0f;
+        GameObject nearestTarget = null;
+        foreach (GameObject target in avalibleTargets)
+        {
+            float cheker = Vector2.Distance(transform.position, target.transform.position);
+            if(distanceToTarget > cheker)
+            {
+                distanceToTarget = cheker;
+                nearestTarget = target;
+            }
+        }
+        return nearestTarget; 
+    }
+
+    public GameObject ChooseMostPowerTarget(GameObject[] avalibleTargets)
+    {
+        float powerTarget = 0f;
+        GameObject mostPowerTarget = null;
+        foreach(GameObject target in avalibleTargets)
+        {
+            float cheker = target.GetComponent<Unit>().UnitPower;
+            if(powerTarget < cheker)
+            {
+                powerTarget = cheker;
+                mostPowerTarget = target;
+            }
+        }
+        return mostPowerTarget;
+    }
+
+    public GameObject ChooseMostWeakTarget(GameObject[] avalibleTargets)
+    {
+        float weakTarget = avalibleTargets[0].GetComponent<Unit>().UnitPower;
+        GameObject mostWeakTarget = null;
+        foreach (GameObject target in avalibleTargets)
+        {
+            float cheker = target.GetComponent<Unit>().UnitPower;
+            if (weakTarget > cheker)
+            {
+                weakTarget = cheker;
+                mostWeakTarget = target;
+            }
+        }
+        return mostWeakTarget;
+    }
+
+    public void FollowTargetAndStrike(GameObject target, float AttackRange)
+    {
+        if(Vector2.Distance(transform.position, target.transform.position) > AttackRange)
+        {
+            MoveToPoint(target.transform.position);
+        }
+        else
+        {
+            Strike(target);
+        }
+    }
+
+    public virtual void Strike(GameObject target)
+    {
+        //сюда помещаем функции скиллов атаки которая реализуется в дочерних классах
+        //проигрываем тригер анимации атаки
+    }
+
+    public virtual void RotateToHitBoxes(GameObject target)
+    {
+
     }
 }
