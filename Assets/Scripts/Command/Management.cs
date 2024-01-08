@@ -24,6 +24,8 @@ public class Management : MonoBehaviour
 
     public SelectionState CurrentSelectionState;
 
+    LayerMask mask;
+
     //==Геометрический центр выделенных юнитов==/
     public Vector2 GeometryCenter;
     public Transform GeometryCenterPoint;
@@ -32,12 +34,13 @@ public class Management : MonoBehaviour
     {
         FrameImage.enabled = false;
         GeometryCenterPoint.gameObject.SetActive(false);
+        mask = LayerMask.GetMask("Selectable", "Ground");
     }
 
     void Update()
     {
         MousePosition = new Vector2(Camera.ScreenToWorldPoint(Input.mousePosition).x, Camera.ScreenToWorldPoint(Input.mousePosition).y);
-        RaycastHit2D hit2D = Physics2D.Raycast(MousePosition, Vector2.zero, 0f);
+        RaycastHit2D hit2D = Physics2D.Raycast(MousePosition, Vector2.zero, 0f, mask);
         
         if (hit2D) // Если попали в объект с коллайдером
         {
@@ -166,7 +169,6 @@ public class Management : MonoBehaviour
             }
 
             Vector2 average = new Vector2(sumx / ListOfSelected.Count, sumy / ListOfSelected.Count);
-            Debug.Log(average);
             GeometryCenter = average;
             GeometryCenterPoint.gameObject.SetActive(true);
             GeometryCenterPoint.transform.position = new Vector3(average.x, average.y, transform.position.z);

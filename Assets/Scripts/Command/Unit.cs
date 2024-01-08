@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using Unity.Collections.LowLevel.Unsafe;
 using Unity.VisualScripting;
@@ -30,11 +31,6 @@ public class Unit : SelectableObject
 
     //==UnitStats==//
     public float UnitPower;
-
-    //==Unit Vision==//
-    public float UnitVisionAngle;
-    public float UnitVisionDistance;
-
 
     //==Behavior==//
     public bool isPatrol;
@@ -74,8 +70,9 @@ public class Unit : SelectableObject
         Agent.updateUpAxis = false;
 
         moveToPoint = transform.position;
-
+        
         lineRenderer = GetComponent<LineRenderer>();
+
 
         path = new NavMeshPath();
 
@@ -318,6 +315,6 @@ public class Unit : SelectableObject
         Utils.gameObject.SetActive(false); // Выключаем все коллайдеры, тригерры
         GetComponent<LineRenderer>().enabled = false;
         GetComponent<NavMeshAgent>().enabled = false;
-        SelectionIndicator.GetComponent<SpriteRenderer>().color = Color.gray;
+        SelectionIndicator.GetComponent<SpriteRenderer>().color = UnityEngine.Color.gray;
     }
 }

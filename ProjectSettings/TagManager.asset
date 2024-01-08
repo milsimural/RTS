@@ -7,14 +7,16 @@ TagManager:
   - Ground
   - CanHit
   - Shield
+  - Ally
+  - Enemy
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - Unit
+  - Selectable
   - Water
   - UI
-  - Enemy
+  - Ground
   - 
   - 
   - 
