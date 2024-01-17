@@ -317,4 +317,27 @@ public class Unit : SelectableObject
         GetComponent<NavMeshAgent>().enabled = false;
         SelectionIndicator.GetComponent<SpriteRenderer>().color = UnityEngine.Color.gray;
     }
+
+    #region Случайное движение
+
+    //Методы создающие случайные точки
+
+    private Vector2 RandomPointCloseToUnit()
+    {
+        Vector2 point = Random.insideUnitCircle * 2;
+        return point;
+    }
+
+    private void RandomUnitRotation()
+    {
+        transform.rotation = Random.rotation;
+    }
+
+    private void RandomCloseMove()
+    {
+        MoveToPoint(RandomPointCloseToUnit());
+        RandomUnitRotation();
+    }
+
+    #endregion
 }

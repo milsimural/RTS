@@ -130,7 +130,6 @@ public class TileMapGenerator : MonoBehaviour {
 				}
 				
 				Tiles[x,y] = t;
-				Debug.Log("HeightValue: " + Tiles[x, y].HeightValue + " HeightType: " + Tiles[x, y].HeightType + " X: " + Tiles[x, y].X + " Y: " + Tiles[x, y].Y);
 			}
 		}
 	}
